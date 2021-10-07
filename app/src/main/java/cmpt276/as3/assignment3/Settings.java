@@ -14,6 +14,7 @@ public class Settings extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         setTitle("Setting");
 
+        // get the intent
         Intent intent = getIntent();
     }
 

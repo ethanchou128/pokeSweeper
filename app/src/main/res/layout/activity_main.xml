@@ -45,7 +45,7 @@
             android:layout_marginEnd="180dp"
             android:layout_marginRight="180dp"
             android:layout_marginBottom="180dp"
-            android:text="Click Anywhere to begin!"
+            android:text="Click anywhere to begin!"
             android:textSize="30sp"
             app:layout_constraintBottom_toTopOf="@+id/imageMainBackGround"
             app:layout_constraintEnd_toStartOf="@+id/imageMainBackGround"

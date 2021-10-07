@@ -18,8 +18,8 @@ import android.widget.Toast;
 //test commit from Ethan's desktop
 public class Games extends AppCompatActivity {
 
-    private static final int NUM_ROWS = 5;
-    private static final int NUM_COLS = 5;
+    private static final int NUM_ROWS = 4;
+    private static final int NUM_COLS = 4;
 
     Button buttons[][] = new Button[NUM_ROWS][NUM_COLS];
 

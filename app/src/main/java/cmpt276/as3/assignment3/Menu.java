@@ -32,6 +32,7 @@ public class Menu extends AppCompatActivity {
         gameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // goes into game activity
                 Intent i = Games.makeLaunchIntent(Menu.this);
                 startActivity(i);
             }
@@ -43,6 +44,7 @@ public class Menu extends AppCompatActivity {
         settingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // goes into setting activity
                 Intent i = Settings.makeLaunchIntent(Menu.this);
                 startActivity(i);
             }
@@ -54,6 +56,7 @@ public class Menu extends AppCompatActivity {
         helpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // goes into help activity
                 Intent i = Helps.makeLaunchIntent(Menu.this);
                 startActivity(i);
             }
