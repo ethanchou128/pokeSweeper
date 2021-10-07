@@ -3,8 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/cmpt-265/Assignments/Assignment3/app/src/main/res/layout/activity_games.xml" value="0.1" />
+        <entry key="..\:/cmpt-265/Assignments/Assignment3/app/src/main/res/layout/activity_games.xml" value="0.25" />
+        <entry key="..\:/cmpt-265/Assignments/Assignment3/app/src/main/res/layout/activity_helps.xml" value="0.28532608695652173" />
         <entry key="..\:/cmpt-265/Assignments/Assignment3/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/cmpt-265/Assignments/Assignment3/app/src/main/res/layout/activity_menu.xml" value="0.28532608695652173" />
+        <entry key="..\:/cmpt-265/Assignments/Assignment3/app/src/main/res/layout/activity_settings.xml" value="0.28532608695652173" />
       </map>
     </option>
   </component>

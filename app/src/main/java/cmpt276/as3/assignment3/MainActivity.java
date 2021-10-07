@@ -10,25 +10,25 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+    private RelativeLayout mainLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setTitle("Welcome Screen");
 
-        setUpGameButton();
-    }
-
-    private void setUpGameButton() {
-        Button gameButton = findViewById(R.id.btnGame);
-        gameButton.setOnClickListener(new View.OnClickListener() {
+        mainLayout = findViewById(R.id.relativeLayout);
+        mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = Games.makeLaunchIntent(MainActivity.this);
+                Intent i = Menu.makeLaunchIntent(MainActivity.this);
                 startActivity(i);
             }
         });
