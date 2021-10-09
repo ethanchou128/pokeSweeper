@@ -3,17 +3,10 @@ package cmpt276.as3.assignment3;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private RelativeLayout mainLayout;
@@ -22,16 +15,35 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle("Welcome Screen");
+        setTitle("Pokeball Adventure!");
 
-        mainLayout = findViewById(R.id.relativeLayout);
+        setUpMenuButton();
+        AutoAdvanceToMenu();
+    }
+
+    private void setUpMenuButton() {
+        mainLayout = findViewById(R.id.btnMenu);
         mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // goes into menu activity
                 Intent i = Menu.makeLaunchIntent(MainActivity.this);
                 startActivity(i);
+
+                // transition animation to next activity
+                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
             }
         });
+    }
+
+    private void AutoAdvanceToMenu() {
+        // use postDalayed to advance to menu activity after 10 seconds.
+        new Handler().postDelayed(new Runnable(){
+            @Override
+            public void run() {
+                Intent mainIntent = new Intent(MainActivity.this,Menu.class);
+                MainActivity.this.startActivity(mainIntent);
+            }
+        }, 10000); // 10 seconds
     }
 }

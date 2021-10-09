@@ -13,11 +13,16 @@ public class Helps extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_helps);
         setTitle("Help");
-
-        Intent intent = getIntent();
     }
 
     public static Intent makeLaunchIntent(Context c) {
         return new Intent(c, Helps.class);
+    }
+
+    // transition animation when going back to the previous activity
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 }

@@ -29,8 +29,6 @@ public class Games extends AppCompatActivity {
         setContentView(R.layout.activity_games);
         setTitle("Game");
 
-        Intent intent = getIntent();
-
         populateButtons();
     }
 
@@ -86,7 +84,7 @@ public class Games extends AppCompatActivity {
         // scale image to button
         int newWidth = button.getWidth();
         int newHeight = button.getHeight();
-        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.testing_picture);
+        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pokeball);
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, true);
         Resources resource = getResources();
         button.setBackground(new BitmapDrawable(resource, scaledBitmap));
@@ -109,5 +107,12 @@ public class Games extends AppCompatActivity {
                 button.setMaxWidth(height);
             }
         }
+    }
+
+    // transition animation when going back to the previous activity
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 }

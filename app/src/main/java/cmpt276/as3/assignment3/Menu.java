@@ -35,6 +35,7 @@ public class Menu extends AppCompatActivity {
                 // goes into game activity
                 Intent i = Games.makeLaunchIntent(Menu.this);
                 startActivity(i);
+                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
             }
         });
     }
@@ -47,6 +48,7 @@ public class Menu extends AppCompatActivity {
                 // goes into setting activity
                 Intent i = Settings.makeLaunchIntent(Menu.this);
                 startActivity(i);
+                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
             }
         });
     }
@@ -59,7 +61,18 @@ public class Menu extends AppCompatActivity {
                 // goes into help activity
                 Intent i = Helps.makeLaunchIntent(Menu.this);
                 startActivity(i);
+
+                // transition animation to the next activity
+                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
             }
         });
     }
+
+    // transition animation when going back to the previous activity
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+    }
 }
+
