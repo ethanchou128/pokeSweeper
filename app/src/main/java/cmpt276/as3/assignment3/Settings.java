@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 public class Settings extends AppCompatActivity {
 
@@ -12,7 +14,28 @@ public class Settings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        setTitle("Setting");
+
+        createRadioButtons();
+    }
+
+    private void createRadioButtons() {
+        RadioGroup minesGroup = findViewById(R.id.radio_group_num_mines);
+
+        //create buttons
+
+        int[] numMinesOptions = getResources().getIntArray(R.array.num_of_mines);
+
+        for(int i = 0; i < numMinesOptions.length; i++) {
+            int numMines = numMinesOptions[i];
+
+            RadioButton button = new RadioButton(this);
+            button.setText(numMines + " mines");
+
+            //set on click callback
+            //add to radio group
+            minesGroup.addView(button);
+        }
+
     }
 
     public static Intent makeLaunchIntent(Context c) {
