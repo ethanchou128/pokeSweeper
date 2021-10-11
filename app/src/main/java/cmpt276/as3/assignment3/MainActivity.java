@@ -19,9 +19,7 @@ public class MainActivity extends AppCompatActivity {
         setTitle("Pokeball Adventure!");
 
         setUpMenuButton();
-        AutoAdvanceToMenu();
-
-
+        //AutoAdvanceToMenu();
     }
 
     private void setUpMenuButton() {
@@ -40,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void AutoAdvanceToMenu() {
-        // use postDalayed to advance to menu activity after 10 seconds.
+        // use postDelayed to advance to menu activity after 10 seconds.
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run() {

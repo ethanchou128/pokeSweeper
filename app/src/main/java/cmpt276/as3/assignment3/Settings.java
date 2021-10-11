@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -18,27 +19,58 @@ public class Settings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        createRadioButtons();
+        createRadioButtonsForNumMines();
+        createRadioButtonsForNumPanels();
         setupPrintSelectedButton();
     }
+
+
 
     private void setupPrintSelectedButton() {
         Button numSelectBtn = findViewById(R.id.findSelected);
         numSelectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RadioGroup minesGroup = findViewById(R.id.radio_group_num_mines);
-                int idOfSelected = minesGroup.getCheckedRadioButtonId();
-                RadioButton radioButton = findViewById(idOfSelected);
-                String message = radioButton.getText().toString();
+                try {
+                    RadioGroup minesGroup = findViewById(R.id.radio_group_num_mines);
+                    int idOfSelected = minesGroup.getCheckedRadioButtonId();
+                    RadioButton radioButton = findViewById(idOfSelected);
+                    String message = radioButton.getText().toString();
 
-                Toast.makeText(Settings.this, "Selected button's text is " + message, Toast.LENGTH_SHORT)
-                        .show();
+                    Toast.makeText(Settings.this, "Selected button's text is " + message, Toast.LENGTH_SHORT)
+                            .show();
+                } catch (Exception e) {
+                    Toast.makeText(Settings.this, "No number of mines is selected.",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
 
-    private void createRadioButtons() {
+    private void createRadioButtonsForNumPanels() {
+        RadioGroup numPanelsGroup = findViewById(R.id.radio_group_num_panels);
+
+        String[] numArrangementsOptions = getResources().getStringArray(R.array.num_game_panels);
+
+        for (int i = 0; i < numArrangementsOptions.length; i++) {
+            final String panelArrangement = numArrangementsOptions[i];
+
+            RadioButton button = new RadioButton(this);
+            button.setText(panelArrangement);
+
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(Settings.this, "You clicked " + panelArrangement, Toast.LENGTH_SHORT)
+                            .show();
+                }
+            });
+            //add to radio group
+            numPanelsGroup.addView(button);
+        }
+    }
+
+    private void createRadioButtonsForNumMines() {
         RadioGroup minesGroup = findViewById(R.id.radio_group_num_mines);
 
         //create buttons
