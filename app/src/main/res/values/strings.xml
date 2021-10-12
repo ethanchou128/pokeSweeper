@@ -2,4 +2,5 @@
     <string name="app_name">Assignment3</string>
     <string name="by_ethan_nick"><![CDATA[By Ethan & Nick]]></string>
     <string name="mines">\"%1$d mines\"</string>
+    <string name="saveButton">Save Button</string>
 </resources>
