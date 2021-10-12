@@ -14,8 +14,6 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.Toast;
-//test commit from Ethan's Macbook
-//test commit from Ethan's desktop
 public class Games extends AppCompatActivity {
 
     private static final int NUM_ROWS = 4;

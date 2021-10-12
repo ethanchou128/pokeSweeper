@@ -10,7 +10,6 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
 public class MainActivity extends AppCompatActivity {
-    private RelativeLayout mainLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,11 +18,11 @@ public class MainActivity extends AppCompatActivity {
         setTitle("Pokeball Adventure!");
 
         setUpMenuButton();
-        //AutoAdvanceToMenu();
+        AutoAdvanceToMenu();
     }
 
     private void setUpMenuButton() {
-        mainLayout = findViewById(R.id.btnMenu);
+        RelativeLayout mainLayout = findViewById(R.id.btnMenu);
         mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
