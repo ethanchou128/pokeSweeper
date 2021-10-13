@@ -43,8 +43,11 @@ public class Games extends AppCompatActivity {
 
         if (numRows == 0 && numColumns == 0 && numMines == 0) {
             numRows = 4;
+            game.setNumRow(numRows);
             numColumns = 6;
+            game.setNumColumns(numColumns);
             numMines = 6;
+            game.setNumMines(numMines);
         }
 
         buttons = new Button[numRows][numColumns];
@@ -93,7 +96,7 @@ public class Games extends AppCompatActivity {
                 Toast.LENGTH_SHORT).show();
         Button button = buttons[row][col];
 
-        lockButtonSizes(button);
+        lockButtonSizes();
 
         // scale image to button
         int newWidth = button.getWidth();
@@ -102,21 +105,24 @@ public class Games extends AppCompatActivity {
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, true);
         Resources resource = getResources();
         button.setBackground(new BitmapDrawable(resource, scaledBitmap));
-
         // Change text on clicked
         button.setText("" + col);
     }
 
-    private void lockButtonSizes(Button button) {
-        int width = button.getWidth();
-        button.setMinWidth(width);
-        button.setMaxWidth(width);
+    private void lockButtonSizes() {
+        for(int row = 0; row < game.getNumRow(); row++) {
+            for(int col = 0; col < game.getNumColumns(); col++) {
+                Button button = buttons[row][col];
+                int width = button.getWidth();
+                button.setMinWidth(width);
+                button.setMaxWidth(width);
 
-        int height = button.getHeight();
-        button.setMinWidth(height);
-        button.setMaxWidth(height);
+                int height = button.getHeight();
+                button.setMinHeight(height);
+                button.setMaxHeight(height);
+            }
+        }
     }
-
     @Override
     protected void onResume() {
         super.onResume();

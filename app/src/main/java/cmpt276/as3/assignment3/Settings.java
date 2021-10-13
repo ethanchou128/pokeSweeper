@@ -30,7 +30,7 @@ public class Settings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         // set the title of the action bar to "Edit Game Settings"
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Add Game"); // set the title of the action bar to "New Game Score"
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Edit Game Settings");
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
