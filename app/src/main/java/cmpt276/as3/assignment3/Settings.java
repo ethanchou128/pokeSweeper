@@ -3,9 +3,11 @@ package cmpt276.as3.assignment3;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -40,6 +42,13 @@ public class Settings extends AppCompatActivity {
         createRadioButtonsForNumMines();
         createRadioButtonsForNumPanels();
         setupPrintSelectedButton();
+
+        int savedValue = getNumMinesToFind(this);
+        Toast.makeText(this, "Saved Value is " + savedValue,
+                Toast.LENGTH_SHORT).show();
+        String savedLayout = getNumPanels(this);
+        Toast.makeText(this, "Saved Layout is " + savedLayout,
+                Toast.LENGTH_SHORT).show();
     }
 
     private void setMessageContents(String optionChosen) {
@@ -53,7 +62,11 @@ public class Settings extends AppCompatActivity {
             this.numRows = 6;
             this.numColumns = 15;
         }
-        Log.i("layout: ", numRows + " rows" + numColumns + " columns");
+        Log.i("layout: ", numRows + " rows " + numColumns + " columns");
+    }
+
+    private void setNumOfMines(int num) {
+        this.numMinesToFind = num;
     }
 
     private void setupPrintSelectedButton() {
@@ -91,14 +104,32 @@ public class Settings extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    setMessageContents(panelArrangement);
                     Toast.makeText(Settings.this, "You clicked " + panelArrangement, Toast.LENGTH_SHORT)
                             .show();
-                    //setMessageContents(panelArrangement);
+                    saveNumPanels(panelArrangement);
                 }
             });
             //add to radio group
             numPanelsGroup.addView(button);
+
+            //select default button
+            if(panelArrangement.equals(getNumPanels(this))) {
+                button.setChecked(true);
+            }
         }
+    }
+
+    private void saveNumPanels(String panelArrangement) {
+        SharedPreferences prefs = this.getSharedPreferences("panelLayout", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("Num panels", panelArrangement);
+        editor.apply();
+    }
+
+    public static String getNumPanels(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("panelLayout", MODE_PRIVATE);
+        return prefs.getString("Num panels", "");
     }
 
     private void createRadioButtonsForNumMines() {
@@ -109,7 +140,7 @@ public class Settings extends AppCompatActivity {
         int[] numMinesOptions = getResources().getIntArray(R.array.num_of_mines);
 
         for(int i = 0; i < numMinesOptions.length; i++) {
-            final int numMines = numMinesOptions[i];
+            int numMines = numMinesOptions[i];
 
             RadioButton button = new RadioButton(this);
             button.setText(getString(R.string.mines, numMines));
@@ -120,13 +151,33 @@ public class Settings extends AppCompatActivity {
                 public void onClick(View view) {
                     Toast.makeText(Settings.this, "You clicked " + numMines, Toast.LENGTH_SHORT)
                             .show();
-                    numMinesToFind = numMines;
+                    setNumOfMines(numMines);
+                    Log.i("num mines: ", numMinesToFind + " mines");
+                    saveNumMinesToFind(numMines);
                 }
             });
             //add to radio group
             minesGroup.addView(button);
+
+            //select default button
+            if(numMines == getNumMinesToFind(this)) {
+                button.setChecked(true);
+            }
         }
 
+    }
+
+    private void saveNumMinesToFind(int numMines) {
+        SharedPreferences prefs = this.getSharedPreferences("appPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("Num mines to find", numMines);
+        editor.apply();
+    }
+
+    public static int getNumMinesToFind(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("appPrefs", MODE_PRIVATE);
+        //change default value
+        return prefs.getInt("Num mines to find", 0);
     }
 
     public static Intent makeLaunchIntent(Context c) {
@@ -138,8 +189,30 @@ public class Settings extends AppCompatActivity {
         boolean bothButtonsClicked = false;
         if(item.getItemId() == R.id.saveGameSettings) {
             Log.i("button clicked", "hello bud");
+            try {
+                //these three variables are initialized with a number of 0.
+                //if these variables are not set within the respective functions above,
+                //an exception is thrown and we try it again.
+                if(numRows != 0 && numColumns != 0 && numMinesToFind != 0) {
+                    games.setNumPanels(numRows, numColumns);
+                    games.setNumMines(numMinesToFind);
+                    bothButtonsClicked = true;
+                } else {
+                    throw new IllegalArgumentException();
+                }
+            } catch (Exception e) {
+                Toast.makeText(this,
+                        "Please select an option from both lists.",
+                        Toast.LENGTH_SHORT).show();
+            }
+            if(bothButtonsClicked) {
+                Toast.makeText(this,
+                        "Settings Saved, Returning to Menu.",
+                        Toast.LENGTH_SHORT).show();
+                finish();
+            }
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 // transition animation when going back to the previous activity
     @Override

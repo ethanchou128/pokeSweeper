@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
@@ -21,8 +22,8 @@ public class Games extends AppCompatActivity {
     //private static final int NUM_ROWS = 4;
     //private static final int NUM_COLS = 4;
     private static Games instance;
-    private int numRows = 4;
-    private int numColumns = 6;
+    private int numRows = 6;
+    private int numColumns = 15;
     private int numMines = 0;
     public static Games getInstance() {
         if(instance == null) {
@@ -32,18 +33,24 @@ public class Games extends AppCompatActivity {
     }
 
     //Button buttons[][] = new Button[NUM_ROWS][NUM_COLS];
-    Button buttons[][] = new Button[numRows][numColumns];
+    Button buttons[][] = new Button[numRows][numColumns];;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_games);
         setTitle("Game");
-
+        refreshNumMines();
+        //refreshPanelLayout();
         populateButtons();
     }
 
     private void populateButtons() {
+        viewArraySpecifications();
+        buttons = new Button[numRows][numColumns];
+        Log.i("game info:", numRows + " rows, "
+                + numColumns + " columns, "
+                + numMines + " mines");
         TableLayout table = findViewById(R.id.tableForButton);
         for (int row=0; row<numRows; row++) {
             TableRow tableRow = new TableRow(this);
@@ -116,6 +123,58 @@ public class Games extends AppCompatActivity {
         }
     }
 
+    private void refreshNumMines() {
+        int numMinesToFind = Settings.getNumMinesToFind(this);
+        numMines = numMinesToFind;
+        Log.i("new num mines", "" + numMines);
+
+        String numPanels = Settings.getNumPanels(this);
+        if(numPanels.equals("4 by 6")) {
+            numRows = 4;
+            numColumns = 6;
+        } else if (numPanels.equals("5 by 10")) {
+            numRows = 5;
+            numColumns = 10;
+        } else {
+            numRows = 6;
+            numColumns = 15;
+        }
+    }
+
+    private void refreshPanelLayout() {
+        String numPanels = Settings.getNumPanels(this);
+        if(numPanels.equals("4 by 6")) {
+            numRows = 4;
+            numColumns = 6;
+        } else if (numPanels.equals("5 by 10")) {
+            numRows = 5;
+            numColumns = 10;
+        } else {
+            numRows = 6;
+            numColumns = 15;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshNumMines();
+        refreshPanelLayout();
+    }
+
+    private void createNewArray(int rows, int columns) {
+        buttons = new Button[rows][columns];
+        Log.i("game info:", numRows + " rows, "
+                + numColumns + " columns, "
+                + numMines + " mines");
+    }
+    //test method
+    private void viewArraySpecifications() {
+        Log.i("rows", "" + numRows);
+        Log.i("columns", "" + numColumns);
+        Log.i("mines", "" + numMines);
+    }
+
     public static Intent makeLaunchIntent(Context c) {
         return new Intent(c, Games.class);
     }
@@ -123,6 +182,7 @@ public class Games extends AppCompatActivity {
     public void setNumPanels(int rows, int columns) {
         this.numRows = rows;
         this.numColumns = columns;
+        createNewArray(rows, columns);
     }
 
     public void setNumMines(int mines) {
