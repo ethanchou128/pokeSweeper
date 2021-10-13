@@ -105,7 +105,6 @@ public class Games extends AppCompatActivity {
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, true);
         Resources resource = getResources();
         button.setBackground(new BitmapDrawable(resource, scaledBitmap));
-
         // Change text on clicked
         button.setText("" + col);
     }
@@ -121,11 +120,9 @@ public class Games extends AppCompatActivity {
                 int height = button.getHeight();
                 button.setMinHeight(height);
                 button.setMaxHeight(height);
-
             }
         }
     }
-
     @Override
     protected void onResume() {
         super.onResume();
