@@ -18,7 +18,8 @@ public class MainActivity extends AppCompatActivity {
         setTitle("Pokeball Adventure!");
 
         setUpMenuButton();
-        AutoAdvanceToMenu();
+
+        //AutoAdvanceToMenu();
     }
 
     private void setUpMenuButton() {

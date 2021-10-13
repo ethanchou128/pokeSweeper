@@ -19,14 +19,23 @@ public class GameStatus {
         return numMine;
     }
 
+    public void setNumMine(int numMine) {
+        this.numMine = numMine;
+    }
+
     public int getNumRow() {
         return numRow;
+    }
+
+    public void setNumRow(int numRow) {
+        this.numRow = numRow;
     }
 
     public int getNumCol() {
         return numCol;
     }
 
-    // Testing merge
-
+    public void setNumCol(int numCol) {
+        this.numCol = numCol;
+    }
 }

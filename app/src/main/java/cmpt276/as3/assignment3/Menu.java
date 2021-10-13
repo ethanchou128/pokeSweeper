@@ -16,8 +16,6 @@ public class Menu extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
         setTitle("Menu");
 
-        Intent intent = getIntent();
-
         setUpGameButton();
         setUpSettingButton();
         setUpHelpButton();

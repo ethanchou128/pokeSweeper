@@ -21,11 +21,13 @@ import android.widget.Toast;
 
 import java.util.Objects;
 
+import cmpt276.as3.assignment3.model.GameStatus;
+
 public class Settings extends AppCompatActivity {
-    private Games games;
-    private int numRows = 0;
-    private int numColumns = 0;
-    private int numMinesToFind = 0;
+    private GameStatus game;
+
+    private String PanelSize;
+    private int numMine;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,111 +39,19 @@ public class Settings extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
 
         //create instance of the object to put back into the games object
-        games = Games.getInstance();
+        game = GameStatus.getInstance();
 
         createRadioButtonsForNumMines();
         createRadioButtonsForNumPanels();
-        setupPrintSelectedButton();
-
-        int savedValue = getNumMinesToFind(this);
-        Toast.makeText(this, "Saved Value is " + savedValue,
-                Toast.LENGTH_SHORT).show();
-        String savedLayout = getNumPanels(this);
-        Toast.makeText(this, "Saved Layout is " + savedLayout,
-                Toast.LENGTH_SHORT).show();
-    }
-
-    private void setMessageContents(String optionChosen) {
-        if(optionChosen.equals("4 by 6")) {
-            this.numRows = 4;
-            this.numColumns = 6;
-        } else if (optionChosen.equals("5 by 10")) {
-            this.numRows = 5;
-            this.numColumns = 10;
-        } else {
-            this.numRows = 6;
-            this.numColumns = 15;
-        }
-        Log.i("layout: ", numRows + " rows " + numColumns + " columns");
-    }
-
-    private void setNumOfMines(int num) {
-        this.numMinesToFind = num;
-    }
-
-    private void setupPrintSelectedButton() {
-        Button numSelectBtn = findViewById(R.id.findSelected);
-        numSelectBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    RadioGroup minesGroup = findViewById(R.id.radio_group_num_mines);
-                    int idOfSelected = minesGroup.getCheckedRadioButtonId();
-                    RadioButton radioButton = findViewById(idOfSelected);
-                    String message = radioButton.getText().toString();
-
-                    Toast.makeText(Settings.this, "Selected button's text is " + message, Toast.LENGTH_SHORT)
-                            .show();
-                } catch (Exception e) {
-                    Toast.makeText(Settings.this, "No number of mines is selected.",
-                            Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
-    private void createRadioButtonsForNumPanels() {
-        RadioGroup numPanelsGroup = findViewById(R.id.radio_group_num_panels);
-
-        String[] numArrangementsOptions = getResources().getStringArray(R.array.num_game_panels);
-
-        for (int i = 0; i < numArrangementsOptions.length; i++) {
-            final String panelArrangement = numArrangementsOptions[i];
-
-            RadioButton button = new RadioButton(this);
-            button.setText(panelArrangement);
-
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    setMessageContents(panelArrangement);
-                    Toast.makeText(Settings.this, "You clicked " + panelArrangement, Toast.LENGTH_SHORT)
-                            .show();
-                    saveNumPanels(panelArrangement);
-                }
-            });
-            //add to radio group
-            numPanelsGroup.addView(button);
-
-            //select default button
-            if(panelArrangement.equals(getNumPanels(this))) {
-                button.setChecked(true);
-            }
-        }
-    }
-
-    private void saveNumPanels(String panelArrangement) {
-        SharedPreferences prefs = this.getSharedPreferences("panelLayout", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("Num panels", panelArrangement);
-        editor.apply();
-    }
-
-    public static String getNumPanels(Context context) {
-        SharedPreferences prefs = context.getSharedPreferences("panelLayout", MODE_PRIVATE);
-        return prefs.getString("Num panels", "");
     }
 
     private void createRadioButtonsForNumMines() {
         RadioGroup minesGroup = findViewById(R.id.radio_group_num_mines);
 
         //create buttons
-
         int[] numMinesOptions = getResources().getIntArray(R.array.num_of_mines);
 
-        for(int i = 0; i < numMinesOptions.length; i++) {
-            int numMines = numMinesOptions[i];
-
+        for (int numMines : numMinesOptions) {
             RadioButton button = new RadioButton(this);
             button.setText(getString(R.string.mines, numMines));
 
@@ -151,34 +61,63 @@ public class Settings extends AppCompatActivity {
                 public void onClick(View view) {
                     Toast.makeText(Settings.this, "You clicked " + numMines, Toast.LENGTH_SHORT)
                             .show();
-                    setNumOfMines(numMines);
-                    Log.i("num mines: ", numMinesToFind + " mines");
-                    saveNumMinesToFind(numMines);
+                    numMine = numMines;
+                    //setNumOfMines(numMines);
+
                 }
             });
             //add to radio group
             minesGroup.addView(button);
-
-            //select default button
-            if(numMines == getNumMinesToFind(this)) {
-                button.setChecked(true);
-            }
         }
-
     }
 
-    private void saveNumMinesToFind(int numMines) {
-        SharedPreferences prefs = this.getSharedPreferences("appPrefs", MODE_PRIVATE);
+    private void createRadioButtonsForNumPanels() {
+        RadioGroup numPanelsGroup = findViewById(R.id.radio_group_num_panels);
+
+        String[] numArrangementsOptions = getResources().getStringArray(R.array.num_game_panels);
+
+        for (final String panelArrangement : numArrangementsOptions) {
+            RadioButton button = new RadioButton(this);
+            button.setText(panelArrangement);
+
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    PanelSize = panelArrangement;
+                    //setMessageContents(panelArrangement);
+                    Toast.makeText(Settings.this, "You clicked " + panelArrangement, Toast.LENGTH_SHORT)
+                            .show();
+                }
+            });
+            //add to radio group
+            numPanelsGroup.addView(button);
+        }
+    }
+
+    private void setMessageContents(String optionChosen) {
+        if(optionChosen.equals("4 by 6")) {
+            game.setNumCol(6);
+            game.setNumRow(4);
+        } else if (optionChosen.equals("5 by 10")) {
+            game.setNumRow(5);
+            game.setNumCol(10);
+        } else {
+            game.setNumRow(5);
+            game.setNumCol(15);
+        }
+    }
+
+    private void setNumOfMines(int num) {
+        game.setNumMine(num);
+    }
+
+    private void saveNumPanels(String panelArrangement) {
+        SharedPreferences prefs = this.getSharedPreferences("panelLayout", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("Num mines to find", numMines);
+        editor.putString("Num panels", panelArrangement);
         editor.apply();
     }
 
-    public static int getNumMinesToFind(Context context) {
-        SharedPreferences prefs = context.getSharedPreferences("appPrefs", MODE_PRIVATE);
-        //change default value
-        return prefs.getInt("Num mines to find", 0);
-    }
 
     public static Intent makeLaunchIntent(Context c) {
         return new Intent(c, Settings.class);
@@ -193,9 +132,10 @@ public class Settings extends AppCompatActivity {
                 //these three variables are initialized with a number of 0.
                 //if these variables are not set within the respective functions above,
                 //an exception is thrown and we try it again.
-                if(numRows != 0 && numColumns != 0 && numMinesToFind != 0) {
-                    games.setNumPanels(numRows, numColumns);
-                    games.setNumMines(numMinesToFind);
+
+                if(PanelSize.length() != 0 && numMine != 0) {
+                    setMessageContents(PanelSize);
+                    setNumOfMines(numMine);
                     bothButtonsClicked = true;
                 } else {
                     throw new IllegalArgumentException();
@@ -214,7 +154,8 @@ public class Settings extends AppCompatActivity {
         }
         return true;
     }
-// transition animation when going back to the previous activity
+
+    // transition animation when going back to the previous activity
     @Override
     public void finish() {
         super.finish();

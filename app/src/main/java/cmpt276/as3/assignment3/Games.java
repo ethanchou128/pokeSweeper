@@ -16,43 +16,44 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.Toast;
 
+import cmpt276.as3.assignment3.model.GameStatus;
+
 //tip 2 - make model store an array of cells, each cell can answer different questions
 public class Games extends AppCompatActivity {
-
-    //private static final int NUM_ROWS = 4;
-    //private static final int NUM_COLS = 4;
-    private static Games instance;
-    private int numRows = 6;
-    private int numColumns = 15;
-    private int numMines = 0;
-    public static Games getInstance() {
-        if(instance == null) {
-            instance = new Games();
-        }
-        return instance;
-    }
+    private GameStatus game;
 
     //Button buttons[][] = new Button[NUM_ROWS][NUM_COLS];
-    Button buttons[][] = new Button[numRows][numColumns];;
+    Button[][] buttons;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_games);
         setTitle("Game");
-        refreshNumMines();
-        //refreshPanelLayout();
+
+        game = GameStatus.getInstance();
+
         populateButtons();
     }
 
     private void populateButtons() {
-        viewArraySpecifications();
-        buttons = new Button[numRows][numColumns];
-        Log.i("game info:", numRows + " rows, "
-                + numColumns + " columns, "
+        int numRows = game.getNumRow();
+        int numCol = game.getNumCol();
+        int numMines = game.getNumMine();
+
+        if (numRows == 0 && numCol == 0 && numMines == 0) {
+            numRows = 4;
+            numCol = 6;
+            numMines = 6;
+        }
+
+        buttons = new Button[numRows][numCol];
+        Log.e("game info:", numRows + " rows, "
+                + numCol + " columns, "
                 + numMines + " mines");
+
         TableLayout table = findViewById(R.id.tableForButton);
-        for (int row=0; row<numRows; row++) {
+        for (int row = 0; row< numRows; row++) {
             TableRow tableRow = new TableRow(this);
             tableRow.setLayoutParams(new TableLayout.LayoutParams(
                     TableLayout.LayoutParams.MATCH_PARENT,
@@ -60,7 +61,7 @@ public class Games extends AppCompatActivity {
                     1.0f));
             table.addView(tableRow);
 
-            for (int col=0; col<numColumns; col++) {
+            for (int col = 0; col< numCol; col++) {
                 final int FINAL_ROW = row;
                 final int FINAL_COL = col;
 
@@ -92,8 +93,7 @@ public class Games extends AppCompatActivity {
                 Toast.LENGTH_SHORT).show();
         Button button = buttons[row][col];
 
-        // Lock button sizes
-        lockButtonSizes();
+        lockButtonSizes(button);
 
         // scale image to button
         int newWidth = button.getWidth();
@@ -107,86 +107,23 @@ public class Games extends AppCompatActivity {
         button.setText("" + col);
     }
 
-    private void lockButtonSizes() {
-        for (int row=0; row < numRows; row++) {
-            for (int col=0; col < numColumns; col++) {
-                Button button = buttons[row][col];
+    private void lockButtonSizes(Button button) {
+        int width = button.getWidth();
+        button.setMinWidth(width);
+        button.setMaxWidth(width);
 
-                int width = button.getWidth();
-                button.setMinWidth(width);
-                button.setMaxWidth(width);
-
-                int height = button.getHeight();
-                button.setMinWidth(height);
-                button.setMaxWidth(height);
-            }
-        }
-    }
-
-    private void refreshNumMines() {
-        int numMinesToFind = Settings.getNumMinesToFind(this);
-        numMines = numMinesToFind;
-        Log.i("new num mines", "" + numMines);
-
-        String numPanels = Settings.getNumPanels(this);
-        if(numPanels.equals("4 by 6")) {
-            numRows = 4;
-            numColumns = 6;
-        } else if (numPanels.equals("5 by 10")) {
-            numRows = 5;
-            numColumns = 10;
-        } else {
-            numRows = 6;
-            numColumns = 15;
-        }
-    }
-
-    private void refreshPanelLayout() {
-        String numPanels = Settings.getNumPanels(this);
-        if(numPanels.equals("4 by 6")) {
-            numRows = 4;
-            numColumns = 6;
-        } else if (numPanels.equals("5 by 10")) {
-            numRows = 5;
-            numColumns = 10;
-        } else {
-            numRows = 6;
-            numColumns = 15;
-        }
+        int height = button.getHeight();
+        button.setMinWidth(height);
+        button.setMaxWidth(height);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        refreshNumMines();
-        refreshPanelLayout();
-    }
-
-    private void createNewArray(int rows, int columns) {
-        buttons = new Button[rows][columns];
-        Log.i("game info:", numRows + " rows, "
-                + numColumns + " columns, "
-                + numMines + " mines");
-    }
-    //test method
-    private void viewArraySpecifications() {
-        Log.i("rows", "" + numRows);
-        Log.i("columns", "" + numColumns);
-        Log.i("mines", "" + numMines);
     }
 
     public static Intent makeLaunchIntent(Context c) {
         return new Intent(c, Games.class);
-    }
-
-    public void setNumPanels(int rows, int columns) {
-        this.numRows = rows;
-        this.numColumns = columns;
-        createNewArray(rows, columns);
-    }
-
-    public void setNumMines(int mines) {
-        this.numMines = mines;
     }
 
     // transition animation when going back to the previous activity
