@@ -38,18 +38,18 @@ public class Games extends AppCompatActivity {
 
     private void populateButtons() {
         int numRows = game.getNumRow();
-        int numCol = game.getNumCol();
-        int numMines = game.getNumMine();
+        int numColumns = game.getNumColumns();
+        int numMines = game.getNumMines();
 
-        if (numRows == 0 && numCol == 0 && numMines == 0) {
+        if (numRows == 0 && numColumns == 0 && numMines == 0) {
             numRows = 4;
-            numCol = 6;
+            numColumns = 6;
             numMines = 6;
         }
 
-        buttons = new Button[numRows][numCol];
+        buttons = new Button[numRows][numColumns];
         Log.e("game info:", numRows + " rows, "
-                + numCol + " columns, "
+                + numColumns + " columns, "
                 + numMines + " mines");
 
         TableLayout table = findViewById(R.id.tableForButton);
@@ -61,7 +61,7 @@ public class Games extends AppCompatActivity {
                     1.0f));
             table.addView(tableRow);
 
-            for (int col = 0; col< numCol; col++) {
+            for (int col = 0; col< numColumns; col++) {
                 final int FINAL_ROW = row;
                 final int FINAL_COL = col;
 

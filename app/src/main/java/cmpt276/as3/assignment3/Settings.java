@@ -3,18 +3,14 @@ package cmpt276.as3.assignment3;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NavUtils;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -26,15 +22,15 @@ import cmpt276.as3.assignment3.model.GameStatus;
 public class Settings extends AppCompatActivity {
     private GameStatus game;
 
-    private String PanelSize;
-    private int numMine;
+    private String panelSize;
+    private int numMinesToFind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         // set the title of the action bar to "Edit Game Settings"
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Edit Game Settings");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Add Game"); // set the title of the action bar to "New Game Score"
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
@@ -61,13 +57,12 @@ public class Settings extends AppCompatActivity {
                 public void onClick(View view) {
                     Toast.makeText(Settings.this, "You clicked " + numMines, Toast.LENGTH_SHORT)
                             .show();
-                    numMine = numMines;
-                    //setNumOfMines(numMines);
-
+                    numMinesToFind = numMines;
                 }
             });
             //add to radio group
             minesGroup.addView(button);
+
         }
     }
 
@@ -83,41 +78,33 @@ public class Settings extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    PanelSize = panelArrangement;
-                    //setMessageContents(panelArrangement);
+                    panelSize = panelArrangement;
                     Toast.makeText(Settings.this, "You clicked " + panelArrangement, Toast.LENGTH_SHORT)
                             .show();
                 }
             });
             //add to radio group
             numPanelsGroup.addView(button);
+
         }
     }
 
     private void setMessageContents(String optionChosen) {
         if(optionChosen.equals("4 by 6")) {
-            game.setNumCol(6);
+            game.setNumColumns(6);
             game.setNumRow(4);
         } else if (optionChosen.equals("5 by 10")) {
             game.setNumRow(5);
-            game.setNumCol(10);
+            game.setNumColumns(10);
         } else {
             game.setNumRow(5);
-            game.setNumCol(15);
+            game.setNumColumns(15);
         }
     }
 
     private void setNumOfMines(int num) {
-        game.setNumMine(num);
+        game.setNumMines(num);
     }
-
-    private void saveNumPanels(String panelArrangement) {
-        SharedPreferences prefs = this.getSharedPreferences("panelLayout", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("Num panels", panelArrangement);
-        editor.apply();
-    }
-
 
     public static Intent makeLaunchIntent(Context c) {
         return new Intent(c, Settings.class);
@@ -133,9 +120,9 @@ public class Settings extends AppCompatActivity {
                 //if these variables are not set within the respective functions above,
                 //an exception is thrown and we try it again.
 
-                if(PanelSize.length() != 0 && numMine != 0) {
-                    setMessageContents(PanelSize);
-                    setNumOfMines(numMine);
+                if(panelSize.length() != 0 && numMinesToFind != 0) {
+                    setMessageContents(panelSize);
+                    setNumOfMines(numMinesToFind);
                     bothButtonsClicked = true;
                 } else {
                     throw new IllegalArgumentException();
@@ -151,8 +138,14 @@ public class Settings extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
                 finish();
             }
+        } else if (item.getItemId() == android.R.id.home) {
+            Toast.makeText(this,
+                    "Game not saved, click button in top right to do so.",
+                    Toast.LENGTH_SHORT).show();
+            finish();
+            return true;
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
     // transition animation when going back to the previous activity

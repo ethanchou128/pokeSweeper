@@ -1,9 +1,9 @@
 package cmpt276.as3.assignment3.model;
 
 public class GameStatus {
-    private int numMine;
-    private int numRow;
-    private int numCol;
+    private int numMines;
+    private int numRows;
+    private int numColumns;
 
     //Singleton Support
     private static GameStatus instance;
@@ -15,27 +15,27 @@ public class GameStatus {
         return instance;
     }
 
-    public int getNumMine() {
-        return numMine;
+    public int getNumMines() {
+        return numMines;
     }
 
-    public void setNumMine(int numMine) {
-        this.numMine = numMine;
+    public void setNumMines(int numMines) {
+        this.numMines = numMines;
     }
 
     public int getNumRow() {
-        return numRow;
+        return numRows;
     }
 
-    public void setNumRow(int numRow) {
-        this.numRow = numRow;
+    public void setNumRow(int numRows) {
+        this.numRows = numRows;
     }
 
-    public int getNumCol() {
-        return numCol;
+    public int getNumColumns() {
+        return numColumns;
     }
 
-    public void setNumCol(int numCol) {
-        this.numCol = numCol;
+    public void setNumColumns(int numColumns) {
+        this.numColumns = numColumns;
     }
 }
