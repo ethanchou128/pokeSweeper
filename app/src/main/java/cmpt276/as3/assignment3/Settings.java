@@ -132,6 +132,7 @@ public class Settings extends AppCompatActivity {
                         "Please select an option from both lists.",
                         Toast.LENGTH_SHORT).show();
             }
+
             if(bothButtonsClicked) {
                 Toast.makeText(this,
                         "Settings Saved, Returning to Menu.",

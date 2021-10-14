@@ -4,6 +4,7 @@ public class GameStatus {
     private int numMines;
     private int numRows;
     private int numColumns;
+    private int numScans;
 
     //Singleton Support
     private static GameStatus instance;
@@ -38,4 +39,8 @@ public class GameStatus {
     public void setNumColumns(int numColumns) {
         this.numColumns = numColumns;
     }
+
+    public int getNumScans() { return numScans; }
+
+    public void setNumScans(int numScans) { this.numScans = numScans;  }
 }
