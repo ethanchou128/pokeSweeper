@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     //the code below was adapted from the Youtube video linked:
     //https://www.youtube.com/watch?v=C_Ka7cKwXW0
-    //all the code below, until line 73 was taken and adapted from the demo linked.
+    //all the code below was taken and adapted from the demo linked.
     private void stopMusicPlayer() {
         if(musicPlayer != null) {
             musicPlayer.release();
