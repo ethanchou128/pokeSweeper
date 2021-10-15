@@ -67,12 +67,5 @@ public class Menu extends AppCompatActivity {
             }
         });
     }
-
-    // transition animation when going back to the previous activity
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-    }
 }
 

@@ -12,8 +12,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -137,18 +139,18 @@ public class Games extends AppCompatActivity {
 
                             // Rescan the scanned button in the same row,
                             // so that it updates the number of mines in the row and col
-                            for (int a=0; a<game.getNumColumns(); a++) {
+                            for (int i=0; i<game.getNumColumns(); i++) {
                                 int numMinesScanned = 0;
-                                Button button = buttons[FINAL_ROW][a];
-                                if (intButtons[FINAL_ROW][a] == 2){
-                                    for (int i = 0; i< finalNumRows; i++) {
-                                        if (intButtons[i][FINAL_COL] == 1) {
+                                Button button = buttons[FINAL_ROW][i];
+                                if (intButtons[FINAL_ROW][i] == 2){
+                                    for (int j = 0; j< finalNumRows; j++) {
+                                        if (intButtons[j][i] == 1) {
                                             numMinesScanned++;
                                         }
                                     }
 
-                                    for (int i = 0; i< finalNumColumns; i++) {
-                                        if (intButtons[FINAL_ROW][i] == 1) {
+                                    for (int j = 0; j< finalNumColumns; j++) {
+                                        if (intButtons[FINAL_ROW][j] == 1) {
                                             numMinesScanned++;
                                         }
                                     }
@@ -158,18 +160,18 @@ public class Games extends AppCompatActivity {
 
                             // Rescan the scanned button in the same col,
                             // so that it updates the number of mines in the row and col
-                            for (int a=0; a<game.getNumRow(); a++) {
+                            for (int i=0; i<game.getNumRow(); i++) {
                                 int numMinesScanned = 0;
-                                Button button = buttons[a][FINAL_COL];
-                                if (intButtons[a][FINAL_COL] == 2) {
-                                    for (int i = 0; i< finalNumRows; i++) {
-                                        if (intButtons[i][FINAL_COL] == 1) {
+                                Button button = buttons[i][FINAL_COL];
+                                if (intButtons[i][FINAL_COL] == 2) {
+                                    for (int j = 0; j< finalNumRows; j++) {
+                                        if (intButtons[j][FINAL_COL] == 1) {
                                             numMinesScanned++;
                                         }
                                     }
 
-                                    for (int i = 0; i< finalNumColumns; i++) {
-                                        if (intButtons[FINAL_ROW][i] == 1) {
+                                    for (int j = 0; j< finalNumColumns; j++) {
+                                        if (intButtons[i][j] == 1) {
                                             numMinesScanned++;
                                         }
                                     }
@@ -206,6 +208,12 @@ public class Games extends AppCompatActivity {
                         if (numMines[0] == 0) {
                                 AlertDialog dialog;
                                 AlertDialog.Builder builder = new AlertDialog.Builder(Games.this);
+
+                            // The below 3 line of codes if from stackoverflow linked:
+                            // https://stackoverflow.com/questions/6276501/how-to-put-an-image-in-an-alertdialog-android
+                                LayoutInflater factory = LayoutInflater.from(Games.this);
+                                @SuppressLint("InflateParams") final View pikachu = factory.inflate(R.layout.dialog, null);
+                                builder.setView(pikachu);
 
                                 builder.setTitle("Congratulation, Adventurer, You have found all the PokeBalls!");
                                 stopGameBackgroundMusic();
