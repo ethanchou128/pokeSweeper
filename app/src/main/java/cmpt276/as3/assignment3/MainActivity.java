@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
                 stopMusicPlayer();
                 // transition animation to next activity
                 overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+                finish();
             }
         });
     }
@@ -65,5 +66,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         stopMusicPlayer();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        playMusic();
     }
 }

@@ -10,7 +10,9 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +31,8 @@ import cmpt276.as3.assignment3.model.GameStatus;
 // is to find all the mines
 public class Games extends AppCompatActivity {
     private GameStatus game;
+    MediaPlayer musicPlayer;
+    MediaPlayer soundEffectsPlayer;
 
     Button[][] buttons; // buttons for table layout
     /*
@@ -48,6 +52,7 @@ public class Games extends AppCompatActivity {
 
         game = GameStatus.getInstance();
 
+        playGameBackgroundMusic();
         populateButtons();
         updateUI();
     }
@@ -129,7 +134,7 @@ public class Games extends AppCompatActivity {
                         // if clicked on a mine
                         if (IntButtons[FINAL_ROW][FINAL_COL] == 1) {
                             gridButtonClicked(FINAL_ROW, FINAL_COL);
-
+                            playFoundPokeBallSound();
                             numMines[0]--;
                             game.setNumMines(numMines[0]);
                             IntButtons[FINAL_ROW][FINAL_COL] = 3;
@@ -207,7 +212,8 @@ public class Games extends AppCompatActivity {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(Games.this);
 
                                 builder.setTitle("Congratulation, Adventurer, You have found all the PokeBalls!");
-
+                                stopGameBackgroundMusic();
+                                playVictoryMusic();
                                 builder.setPositiveButton("OK", ((dialogInterface, i) -> {
                                     game.setNumRow(0);
                                     game.setNumColumns(0);
@@ -268,9 +274,52 @@ public class Games extends AppCompatActivity {
         numScan.setText("# of Scans used: " + game.getNumScans());
     }
 
+    //methods corresponding to the music player
+    private void playFoundPokeBallSound() {
+        if(soundEffectsPlayer == null) {
+            soundEffectsPlayer = MediaPlayer.create(this, R.raw.item_found);
+        }
+        soundEffectsPlayer.setVolume(0, 0.5F);
+        soundEffectsPlayer.start();
+    }
+
+    private void playVictoryMusic() {
+        if(musicPlayer == null) {
+            musicPlayer = MediaPlayer.create(this, R.raw.victory);
+        }
+        musicPlayer.start();
+    }
+
+    private void playGameBackgroundMusic() {
+        if(musicPlayer == null) {
+            musicPlayer = MediaPlayer.create(this, R.raw.in_game_music);
+            musicPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    playGameBackgroundMusic();
+                }
+            });
+        }
+        musicPlayer.start();
+    }
+
+    private void stopGameBackgroundMusic() {
+        if(musicPlayer != null) {
+            musicPlayer.release();
+            musicPlayer = null;
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
+        playGameBackgroundMusic();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopGameBackgroundMusic();
     }
 
     public static Intent makeLaunchIntent(Context c) {
