@@ -8,13 +8,11 @@
 
     <TableLayout
         android:id="@+id/tableForButton"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="682dp"
+        android:layout_height="288dp"
         android:layout_marginStart="1dp"
-        android:layout_marginLeft="1dp"
         android:layout_marginTop="1dp"
         android:layout_marginEnd="1dp"
-        android:layout_marginRight="1dp"
         android:layout_marginBottom="1dp"
         android:stretchColumns="*"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -22,5 +20,29 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"></TableLayout>
+        app:layout_constraintVertical_bias="1.0"></TableLayout>
+
+    <TextView
+        android:id="@+id/txtNumScans"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.976"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.04" />
+
+    <TextView
+        android:id="@+id/txtNumMineLeft"
+        android:layout_width="187dp"
+        android:layout_height="23dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.024"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.04" />
 </androidx.constraintlayout.widget.ConstraintLayout>
