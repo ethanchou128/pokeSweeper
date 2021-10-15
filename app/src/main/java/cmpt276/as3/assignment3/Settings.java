@@ -21,7 +21,6 @@ import cmpt276.as3.assignment3.model.GameStatus;
 
 public class Settings extends AppCompatActivity {
     private GameStatus game;
-
     private String panelSize;
     private int numMinesToFind;
 
@@ -62,7 +61,6 @@ public class Settings extends AppCompatActivity {
             });
             //add to radio group
             minesGroup.addView(button);
-
         }
     }
 
@@ -85,7 +83,6 @@ public class Settings extends AppCompatActivity {
             });
             //add to radio group
             numPanelsGroup.addView(button);
-
         }
     }
 
@@ -119,7 +116,6 @@ public class Settings extends AppCompatActivity {
                 //these three variables are initialized with a number of 0.
                 //if these variables are not set within the respective functions above,
                 //an exception is thrown and we try it again.
-
                 if(panelSize.length() != 0 && numMinesToFind != 0) {
                     setMessageContents(panelSize);
                     setNumOfMines(numMinesToFind);
@@ -140,6 +136,8 @@ public class Settings extends AppCompatActivity {
                 finish();
             }
         } else if (item.getItemId() == android.R.id.home) {
+            //toast politely reminds the user that they didnt click the save button
+            //in the top right corner and the settings are still set to default (4x6, 6 mines)
             Toast.makeText(this,
                     "Game not saved, click button in top right to do so.",
                     Toast.LENGTH_SHORT).show();
@@ -149,13 +147,13 @@ public class Settings extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // transition animation when going back to the previous activity
     @Override
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
+    //method that adds the menu bar onto the activity (contains the save button)
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_game_settings, menu);

@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+//menu activity that contains the buttons to either the help, settings,
+//or go to game screen.
 public class Menu extends AppCompatActivity {
 
     @Override

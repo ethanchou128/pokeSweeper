@@ -12,8 +12,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
@@ -21,8 +19,6 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Random;
 
 import cmpt276.as3.assignment3.model.GameStatus;
@@ -42,7 +38,7 @@ public class Games extends AppCompatActivity {
     2 - means the button is revealed but not a mine
     3 - means the button is a revealed mine
      */
-    int[][] IntButtons;
+    int[][] intButtons;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,33 +71,33 @@ public class Games extends AppCompatActivity {
             game.setNumMines(numMines[0]);
         }
 
-        IntButtons = new int[numRows][numColumns];
+        intButtons = new int[numRows][numColumns];
         buttons = new Button[numRows][numColumns];
 
         // previous is to prevent from repetition since random might give us the same position again
         int[][] previous = new int[numRows][numColumns];
         for (int i = 0; i < numMines[0]; i++) {
             // get random row and col
-            int MineIndex_Row = randomMine.nextInt(numRows);
-            int MineIndex_Col = randomMine.nextInt(numColumns);
+            int mineIndexRow = randomMine.nextInt(numRows);
+            int mineIndexCol = randomMine.nextInt(numColumns);
 
             // while the position is a mine, increment the col by 1, if it is til the end
             // wrap back to the beginning and increment the row by 1, and so for
-            while (previous[MineIndex_Row][MineIndex_Col] == 1) {
-                MineIndex_Col++;
-                if (MineIndex_Col >= numColumns) {
-                    MineIndex_Col = 0;
-                    MineIndex_Row++;
-                    if (MineIndex_Row >= numRows) {
-                        MineIndex_Row = 0;
-                        MineIndex_Col = 0;
+            while (previous[mineIndexRow][mineIndexCol] == 1) {
+                mineIndexCol++;
+                if (mineIndexCol >= numColumns) {
+                    mineIndexCol = 0;
+                    mineIndexRow++;
+                    if (mineIndexRow >= numRows) {
+                        mineIndexRow = 0;
+                        mineIndexCol = 0;
                     }
                 }
             }
 
             // Mark the button as a mine by giving it a value of 1
-            IntButtons[MineIndex_Row][MineIndex_Col] = 1;
-            previous[MineIndex_Row][MineIndex_Col] = 1;
+            intButtons[mineIndexRow][mineIndexCol] = 1;
+            previous[mineIndexRow][mineIndexCol] = 1;
         }
 
         // populating table layout
@@ -132,78 +128,78 @@ public class Games extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         // if clicked on a mine
-                        if (IntButtons[FINAL_ROW][FINAL_COL] == 1) {
+                        if (intButtons[FINAL_ROW][FINAL_COL] == 1) {
                             gridButtonClicked(FINAL_ROW, FINAL_COL);
                             playFoundPokeBallSound();
                             numMines[0]--;
                             game.setNumMines(numMines[0]);
-                            IntButtons[FINAL_ROW][FINAL_COL] = 3;
+                            intButtons[FINAL_ROW][FINAL_COL] = 3;
 
                             // Rescan the scanned button in the same row,
                             // so that it updates the number of mines in the row and col
                             for (int a=0; a<game.getNumColumns(); a++) {
-                                int numMineScanned = 0;
+                                int numMinesScanned = 0;
                                 Button button = buttons[FINAL_ROW][a];
-                                if (IntButtons[FINAL_ROW][a] == 2){
+                                if (intButtons[FINAL_ROW][a] == 2){
                                     for (int i = 0; i< finalNumRows; i++) {
-                                        if (IntButtons[i][FINAL_COL] == 1) {
-                                            numMineScanned++;
+                                        if (intButtons[i][FINAL_COL] == 1) {
+                                            numMinesScanned++;
                                         }
                                     }
 
                                     for (int i = 0; i< finalNumColumns; i++) {
-                                        if (IntButtons[FINAL_ROW][i] == 1) {
-                                            numMineScanned++;
+                                        if (intButtons[FINAL_ROW][i] == 1) {
+                                            numMinesScanned++;
                                         }
                                     }
-                                    button.setText("" + numMineScanned);
+                                    button.setText("" + numMinesScanned);
                                 }
                             }
 
                             // Rescan the scanned button in the same col,
                             // so that it updates the number of mines in the row and col
                             for (int a=0; a<game.getNumRow(); a++) {
-                                int numMineScanned = 0;
+                                int numMinesScanned = 0;
                                 Button button = buttons[a][FINAL_COL];
-                                if (IntButtons[a][FINAL_COL] == 2) {
+                                if (intButtons[a][FINAL_COL] == 2) {
                                     for (int i = 0; i< finalNumRows; i++) {
-                                        if (IntButtons[i][FINAL_COL] == 1) {
-                                            numMineScanned++;
+                                        if (intButtons[i][FINAL_COL] == 1) {
+                                            numMinesScanned++;
                                         }
                                     }
 
                                     for (int i = 0; i< finalNumColumns; i++) {
-                                        if (IntButtons[FINAL_ROW][i] == 1) {
-                                            numMineScanned++;
+                                        if (intButtons[FINAL_ROW][i] == 1) {
+                                            numMinesScanned++;
                                         }
                                     }
-                                    button.setText("" + numMineScanned);
+                                    button.setText("" + numMinesScanned);
                                 }
                             }
                         }
 
                         // if not tapped on a mine
-                        else if (IntButtons[FINAL_ROW][FINAL_COL] == 0){
-                            int numMineScanned = 0;
+                        else if (intButtons[FINAL_ROW][FINAL_COL] == 0){
+                            int numMinesScanned = 0;
                             numScans[0]++;
                             game.setNumScans(numScans[0]);
-                            IntButtons[FINAL_ROW][FINAL_COL] = 2;
+                            intButtons[FINAL_ROW][FINAL_COL] = 2;
 
                             // scan for mines in the same row and col
                             for (int i = 0; i< finalNumRows; i++) {
-                                if (IntButtons[i][FINAL_COL] == 1) {
-                                    numMineScanned++;
+                                if (intButtons[i][FINAL_COL] == 1) {
+                                    numMinesScanned++;
                                 }
                             }
 
                             for (int i = 0; i< finalNumColumns; i++) {
-                                if (IntButtons[FINAL_ROW][i] == 1) {
-                                    numMineScanned++;
+                                if (intButtons[FINAL_ROW][i] == 1) {
+                                    numMinesScanned++;
                                 }
                             }
 
                             Button button = buttons[FINAL_ROW][FINAL_COL];
-                            button.setText("" + numMineScanned);
+                            button.setText("" + numMinesScanned);
                         }
 
                         // if the player found all the mine, display up popup dialog to congrats the winner
@@ -275,6 +271,20 @@ public class Games extends AppCompatActivity {
     }
 
     //methods corresponding to the music player
+
+    private void playGameBackgroundMusic() {
+        if(musicPlayer == null) {
+            musicPlayer = MediaPlayer.create(this, R.raw.in_game_music);
+            musicPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    playGameBackgroundMusic();
+                }
+            });
+        }
+        musicPlayer.start();
+    }
+
     private void playFoundPokeBallSound() {
         if(soundEffectsPlayer == null) {
             soundEffectsPlayer = MediaPlayer.create(this, R.raw.item_found);
@@ -286,19 +296,6 @@ public class Games extends AppCompatActivity {
     private void playVictoryMusic() {
         if(musicPlayer == null) {
             musicPlayer = MediaPlayer.create(this, R.raw.victory);
-        }
-        musicPlayer.start();
-    }
-
-    private void playGameBackgroundMusic() {
-        if(musicPlayer == null) {
-            musicPlayer = MediaPlayer.create(this, R.raw.in_game_music);
-            musicPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mediaPlayer) {
-                    playGameBackgroundMusic();
-                }
-            });
         }
         musicPlayer.start();
     }

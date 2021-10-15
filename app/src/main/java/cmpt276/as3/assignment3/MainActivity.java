@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         musicPlayer.start();
     }
 
-    //media player stopper
+    //media player stopper/resumer
     @Override
     protected void onStop() {
         super.onStop();

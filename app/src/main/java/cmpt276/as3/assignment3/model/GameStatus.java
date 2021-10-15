@@ -1,5 +1,7 @@
 package cmpt276.as3.assignment3.model;
 
+//class that stores all the game information when modified/updated/used in
+//Games and Settings classes.
 public class GameStatus {
     private int numMines;
     private int numRows;
@@ -40,7 +42,11 @@ public class GameStatus {
         this.numColumns = numColumns;
     }
 
-    public int getNumScans() { return numScans; }
+    public int getNumScans() {
+        return numScans;
+    }
 
-    public void setNumScans(int numScans) { this.numScans = numScans;  }
+    public void setNumScans(int numScans) {
+        this.numScans = numScans;
+    }
 }
