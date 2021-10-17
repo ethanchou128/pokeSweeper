@@ -1,17 +1,23 @@
 <resources>
     <string name="app_name">Assignment3</string>
+    <string name="clickAnywhere">Click Anywhere to Begin!</string>
     <string name="by_ethan_nick"><![CDATA[By Ethan & Nick]]></string>
     <string name="mines">\"%1$d mines\"</string>
     <string name="saveButton">Save Button</string>
-
     <string name="howToPlay">How to Play</string>
-    <string name="line1">When the "Game" button is pressed, you will see a layout of grey boxes.</string>
-    <string name="line2">In the top right, you will see the number of Poke Balls you want to find.</string>
-    <string name="line3">In the top left, you will see the number of "performed" scans.</string>
-    <string name="line4">To scan for Poke Balls, click on a blank rectangle.</string>
-    <string name="line5">When clicked, the square will either reveal a Poke Ball, or a number.</string>
-    <string name="line6">This number reveals how many Poke Balls are within the same row or same column as the "scanned" place.</string>
-    <string name="line7">Use these numbers strategically to find all your hidden Poke Balls in the least scans possible!</string>
-    <string name="line8">A couple of diagrams are shown below:</string>
+
+
+    <!-- string array consisting of the lines in the help screen. -->
+
+    <string-array name="gameHelpAndInstructions">
+        <item>\t When the "Game" button is pressed, you will see a layout of grey boxes.</item>
+        <item>\t In the top right, you will see the number of Poke Balls you want to find.</item>
+        <item>\t In the top left, you will see the number of \"performed\" scans.</item>
+        <item>\t To scan for Poke Balls, click on a blank rectangle.</item>
+        <item>\t When clicked, the square will either reveal a Poke Ball, or a number.</item>
+        <item>\t This number reveals how many Poke Balls are in the same row or same column as the \"scanned\" place.</item>
+        <item>\t Use this info strategically to find all your hidden Poke Balls in the least scans possible!</item>
+        <item>\t Optional Features: (FILL OUT LATER)</item>
+    </string-array>
 
 </resources>

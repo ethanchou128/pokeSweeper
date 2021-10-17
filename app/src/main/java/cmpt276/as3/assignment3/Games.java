@@ -215,7 +215,7 @@ public class Games extends AppCompatActivity {
                                 @SuppressLint("InflateParams") final View pikachu = factory.inflate(R.layout.dialog, null);
                                 builder.setView(pikachu);
 
-                                builder.setTitle("Congratulation, Adventurer, You have found all the PokeBalls!");
+                                builder.setTitle("Congratulation, Adventurer, You have found all the Poke Balls!");
                                 stopGameBackgroundMusic();
                                 playVictoryMusic();
                                 builder.setPositiveButton("OK", ((dialogInterface, i) -> {
@@ -238,7 +238,7 @@ public class Games extends AppCompatActivity {
 
     // to scale the image of pokeball
     private void gridButtonClicked(int row, int col) {
-        Toast.makeText(this, "You found a PokeBall!",
+        Toast.makeText(this, "You found a Poke Ball!",
                 Toast.LENGTH_SHORT).show();
         Button button = buttons[row][col];
 
@@ -274,7 +274,7 @@ public class Games extends AppCompatActivity {
         TextView numMineLeft = findViewById(R.id.txtNumMineLeft);
         TextView numScan = findViewById(R.id.txtNumScans);
 
-        numMineLeft.setText("# of PokeBall left: " + game.getNumMines());
+        numMineLeft.setText("# of Poke Balls left: " + game.getNumMines());
         numScan.setText("# of Scans used: " + game.getNumScans());
     }
 

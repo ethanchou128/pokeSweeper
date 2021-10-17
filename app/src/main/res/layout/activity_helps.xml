@@ -6,100 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".Helps">
 
-    <TextView
-        android:id="@+id/howToPlay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="@string/howToPlay"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/gameInstructionsLine1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.046"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/gameInstructionsLine1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/line1"
-        app:layout_constraintBottom_toTopOf="@+id/gameInstructionsLine2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/gameInstructionsLine3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/line3"
-        app:layout_constraintBottom_toTopOf="@+id/gameInstructionsLine4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.081"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/gameInstructionsLine4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/line4"
-        app:layout_constraintBottom_toTopOf="@+id/gameInstructionsLine5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.068"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/gameInstructionsLine5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/line5"
-        app:layout_constraintBottom_toTopOf="@+id/gameInstructionsLine6"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.092"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/gameInstructionsLine6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/line6"
-        app:layout_constraintBottom_toTopOf="@+id/gameInstructionsLine7"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.453"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/gameInstructionsLine7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/line7"
-        app:layout_constraintBottom_toTopOf="@+id/gameInstructionsLine8"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.19"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/gameInstructionsLine8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="208dp"
-        android:text="@string/line8"
+    <ListView
+        android:id="@+id/helpScreenTextLines"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:dividerHeight="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.051"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+
+    </ListView>
 
     <TextView
-        android:id="@+id/gameInstructionsLine2"
-        android:layout_width="wrap_content"
+        android:id="@+id/textView"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/line2"
-        app:layout_constraintBottom_toTopOf="@+id/gameInstructionsLine3"
+        android:layout_gravity="center"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/helpScreenTextLines"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.098"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
