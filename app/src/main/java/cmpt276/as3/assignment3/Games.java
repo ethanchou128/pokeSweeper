@@ -14,8 +14,9 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -55,6 +56,7 @@ public class Games extends AppCompatActivity {
         updateUI();
     }
 
+    @SuppressLint({"ClickableViewAccessibility", "SetTextI18n"})
     private void populateButtons() {
         Random randomMine = new Random();
         int numRows = game.getNumRow();
@@ -116,6 +118,8 @@ public class Games extends AppCompatActivity {
                 final int FINAL_ROW = row;
                 final int FINAL_COL = col;
 
+                Animation scaleDown = AnimationUtils.loadAnimation(this, R.anim.scale_down);
+
                 Button button = new Button(this);
                 button.setLayoutParams(new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
@@ -126,9 +130,7 @@ public class Games extends AppCompatActivity {
                 button.setPadding(0,0,0,0);
                 int finalNumRows = numRows;
                 int finalNumColumns = numColumns;
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+                button.setOnTouchListener((view, motionEvent) -> {
                         // if clicked on a mine
                         if (intButtons[FINAL_ROW][FINAL_COL] == 1) {
                             gridButtonClicked(FINAL_ROW, FINAL_COL);
@@ -141,7 +143,7 @@ public class Games extends AppCompatActivity {
                             // so that it updates the number of mines in the row and col
                             for (int i=0; i<game.getNumColumns(); i++) {
                                 int numMinesScanned = 0;
-                                Button button = buttons[FINAL_ROW][i];
+                                Button button1 = buttons[FINAL_ROW][i];
                                 if (intButtons[FINAL_ROW][i] == 2){
                                     for (int j = 0; j< finalNumRows; j++) {
                                         if (intButtons[j][i] == 1) {
@@ -154,7 +156,7 @@ public class Games extends AppCompatActivity {
                                             numMinesScanned++;
                                         }
                                     }
-                                    button.setText("" + numMinesScanned);
+                                    button1.setText("" + numMinesScanned);
                                 }
                             }
 
@@ -162,7 +164,7 @@ public class Games extends AppCompatActivity {
                             // so that it updates the number of mines in the row and col
                             for (int i=0; i<game.getNumRow(); i++) {
                                 int numMinesScanned = 0;
-                                Button button = buttons[i][FINAL_COL];
+                                Button button1 = buttons[i][FINAL_COL];
                                 if (intButtons[i][FINAL_COL] == 2) {
                                     for (int j = 0; j< finalNumRows; j++) {
                                         if (intButtons[j][FINAL_COL] == 1) {
@@ -175,13 +177,14 @@ public class Games extends AppCompatActivity {
                                             numMinesScanned++;
                                         }
                                     }
-                                    button.setText("" + numMinesScanned);
+                                    button1.setText("" + numMinesScanned);
                                 }
                             }
                         }
 
                         // if not tapped on a mine
                         else if (intButtons[FINAL_ROW][FINAL_COL] == 0){
+                            button.startAnimation(scaleDown);
                             int numMinesScanned = 0;
                             numScans[0]++;
                             game.setNumScans(numScans[0]);
@@ -200,35 +203,37 @@ public class Games extends AppCompatActivity {
                                 }
                             }
 
-                            Button button = buttons[FINAL_ROW][FINAL_COL];
-                            button.setText("" + numMinesScanned);
+                            Button button1 = buttons[FINAL_ROW][FINAL_COL];
+                            button1.setText("" + numMinesScanned);
                         }
 
                         // if the player found all the mine, display up popup dialog to congrats the winner
                         if (numMines[0] == 0) {
-                                AlertDialog dialog;
-                                AlertDialog.Builder builder = new AlertDialog.Builder(Games.this);
+                            AlertDialog dialog;
+                            AlertDialog.Builder builder = new AlertDialog.Builder(Games.this);
 
                             // The below 3 line of codes if from stackoverflow linked:
                             // https://stackoverflow.com/questions/6276501/how-to-put-an-image-in-an-alertdialog-android
-                                LayoutInflater factory = LayoutInflater.from(Games.this);
-                                @SuppressLint("InflateParams") final View pikachu = factory.inflate(R.layout.dialog, null);
-                                builder.setView(pikachu);
+                            LayoutInflater factory = LayoutInflater.from(Games.this);
+                            @SuppressLint("InflateParams") final View pikachu = factory.inflate(R.layout.dialog, null);
+                            builder.setView(pikachu);
 
-                                builder.setTitle("Congratulation, Adventurer, You have found all the Poke Balls!");
-                                stopGameBackgroundMusic();
-                                playVictoryMusic();
-                                builder.setPositiveButton("OK", ((dialogInterface, i) -> {
-                                    game.setNumRow(0);
-                                    game.setNumColumns(0);
-                                    finish();
-                                }));
+                            builder.setTitle("Congratulation, Adventurer, You have found all the Poke Balls!");
+                            stopGameBackgroundMusic();
+                            playVictoryMusic();
+                            builder.setPositiveButton("OK", ((dialogInterface, i) -> {
+                                game.setNumRow(0);
+                                game.setNumColumns(0);
+                                finish();
+                            }));
 
-                                dialog = builder.create();
-                                dialog.show();
+                            dialog = builder.create();
+                            dialog.show();
                         }
                         updateUI();
-                    }
+
+
+                    return true;
                 });
                 tableRow.addView(button);
                 buttons[row][col] = button;
@@ -283,12 +288,7 @@ public class Games extends AppCompatActivity {
     private void playGameBackgroundMusic() {
         if(musicPlayer == null) {
             musicPlayer = MediaPlayer.create(this, R.raw.in_game_music);
-            musicPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mediaPlayer) {
-                    playGameBackgroundMusic();
-                }
-            });
+            musicPlayer.setOnCompletionListener(mediaPlayer -> playGameBackgroundMusic());
         }
         musicPlayer.start();
     }

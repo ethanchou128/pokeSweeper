@@ -10,11 +10,11 @@
     <!-- string array consisting of the lines in the help screen. -->
 
     <string-array name="gameHelpAndInstructions">
-        <item>\t When the "Game" button is pressed, you will see a layout of grey boxes.</item>
+        <item>\t When the "Game" button is pressed, you will see a layout of grey panels.</item>
         <item>\t In the top right, you will see the number of Poke Balls you want to find.</item>
         <item>\t In the top left, you will see the number of \"performed\" scans.</item>
-        <item>\t To scan for Poke Balls, click on a blank rectangle.</item>
-        <item>\t When clicked, the square will either reveal a Poke Ball, or a number.</item>
+        <item>\t To scan for Poke Balls, click on a blank panel.</item>
+        <item>\t When clicked, the panel will either reveal a Poke Ball, or a number.</item>
         <item>\t This number reveals how many Poke Balls are in the same row or same column as the \"scanned\" place.</item>
         <item>\t Use this info strategically to find all your hidden Poke Balls in the least scans possible!</item>
         <item>\t Optional Features: (FILL OUT LATER)</item>

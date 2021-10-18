@@ -2,10 +2,13 @@ package cmpt276.as3.assignment3;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.view.MotionEvent;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
 //menu activity that contains the buttons to either the help, settings,
@@ -27,44 +30,59 @@ public class Menu extends AppCompatActivity {
         return new Intent(c, Menu.class);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setUpGameButton() {
+        Animation scaleUp = AnimationUtils.loadAnimation(this, R.anim.scale_up);
+        Animation scaleDown = AnimationUtils.loadAnimation(this, R.anim.scale_down);
         Button gameButton = findViewById(R.id.btnGame);
-        gameButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // goes into game activity
+        gameButton.setOnTouchListener((view, motionEvent) -> {
+            if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                gameButton.startAnimation(scaleUp);
+            } else if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                gameButton.startAnimation(scaleDown);
                 Intent i = Games.makeLaunchIntent(Menu.this);
                 startActivity(i);
                 overridePendingTransition(R.anim.fadein, R.anim.fadeout);
             }
+            return true;
         });
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setUpSettingButton() {
+        Animation scaleUp = AnimationUtils.loadAnimation(this, R.anim.scale_up);
+        Animation scaleDown = AnimationUtils.loadAnimation(this, R.anim.scale_down);
         Button settingButton = findViewById(R.id.btnSetting);
-        settingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // goes into setting activity
+        settingButton.setOnTouchListener((view, motionEvent) -> {
+            if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                settingButton.startAnimation(scaleUp);
+            } else if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                settingButton.startAnimation(scaleDown);
                 Intent i = Settings.makeLaunchIntent(Menu.this);
                 startActivity(i);
                 overridePendingTransition(R.anim.fadein, R.anim.fadeout);
             }
+
+            return true;
         });
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setUpHelpButton() {
+        Animation scaleUp = AnimationUtils.loadAnimation(this, R.anim.scale_up);
+        Animation scaleDown = AnimationUtils.loadAnimation(this, R.anim.scale_down);
         Button helpButton = findViewById(R.id.btnHelp);
-        helpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // goes into help activity
+        helpButton.setOnTouchListener((view, motionEvent) -> {
+            if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                helpButton.startAnimation(scaleUp);
+            } else if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                helpButton.startAnimation(scaleDown);
                 Intent i = Helps.makeLaunchIntent(Menu.this);
                 startActivity(i);
-
-                // transition animation to the next activity
                 overridePendingTransition(R.anim.fadein, R.anim.fadeout);
             }
+
+            return true;
         });
     }
 }
