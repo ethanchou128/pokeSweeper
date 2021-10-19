@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -31,7 +32,8 @@ import cmpt276.as3.assignment3.model.GameStatus;
 public class Games extends AppCompatActivity {
     private GameStatus game;
     MediaPlayer musicPlayer;
-    MediaPlayer soundEffectsPlayer;
+    MediaPlayer foundItemPlayer;
+    MediaPlayer grassEffectPlayer;
 
     Button[][] buttons; // buttons for table layout
     /*
@@ -186,6 +188,7 @@ public class Games extends AppCompatActivity {
                         else if (intButtons[FINAL_ROW][FINAL_COL] == 0){
                             button.startAnimation(scaleDown);
                             int numMinesScanned = 0;
+                            playGrassSound();
                             numScans[0]++;
                             game.setNumScans(numScans[0]);
                             intButtons[FINAL_ROW][FINAL_COL] = 2;
@@ -290,15 +293,24 @@ public class Games extends AppCompatActivity {
             musicPlayer = MediaPlayer.create(this, R.raw.in_game_music);
             musicPlayer.setOnCompletionListener(mediaPlayer -> playGameBackgroundMusic());
         }
+        musicPlayer.setVolume(0, 0.8F);
         musicPlayer.start();
     }
 
     private void playFoundPokeBallSound() {
-        if(soundEffectsPlayer == null) {
-            soundEffectsPlayer = MediaPlayer.create(this, R.raw.item_found);
+        if(foundItemPlayer == null) {
+            foundItemPlayer = MediaPlayer.create(this, R.raw.item_found);
         }
-        soundEffectsPlayer.setVolume(0, 0.5F);
-        soundEffectsPlayer.start();
+        foundItemPlayer.setVolume(0, 0.5F);
+        foundItemPlayer.start();
+    }
+
+    private void playGrassSound() {
+        if(grassEffectPlayer == null) {
+            grassEffectPlayer = MediaPlayer.create(this, R.raw.stat_fall);
+        }
+        grassEffectPlayer.setVolume(0, 0.5F);
+        grassEffectPlayer.start();
     }
 
     private void playVictoryMusic() {
