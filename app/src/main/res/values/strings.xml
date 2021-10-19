@@ -17,7 +17,6 @@
         <item>\t When clicked, the panel will either reveal a Poke Ball, or a number.</item>
         <item>\t This number reveals how many Poke Balls are in the same row or same column as the \"scanned\" place.</item>
         <item>\t Use this info strategically to find all your hidden Poke Balls in the least scans possible!</item>
-        <item>\t Optional Features: (FILL OUT LATER)</item>
     </string-array>
 
 </resources>
