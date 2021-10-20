@@ -8,15 +8,6 @@ public class GameStatus {
     private int numColumns;
     private int numScans;
 
-    //Singleton Support
-    private static GameStatus instance;
-    private GameStatus() {}
-    public static GameStatus getInstance() {
-        if (instance == null) {
-            instance = new GameStatus();
-        }
-        return instance;
-    }
 
     public int getNumMines() {
         return numMines;

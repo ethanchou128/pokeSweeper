@@ -23,14 +23,17 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.Random;
 
+import cmpt276.as3.assignment3.model.GameManager;
 import cmpt276.as3.assignment3.model.GameStatus;
 
 // Populate tables of button and hidden mine for user to tap on, the task for the player
 // is to find all the mines
 public class Games extends AppCompatActivity {
-    private GameStatus game;
+    private GameManager gameManager;
     MediaPlayer musicPlayer;
     MediaPlayer foundItemPlayer;
     MediaPlayer grassEffectPlayer;
@@ -51,18 +54,25 @@ public class Games extends AppCompatActivity {
         setContentView(R.layout.activity_games);
         setTitle("Game");
 
-        game = GameStatus.getInstance();
+        gameManager = GameManager.getInstance();
+        GameStatus game;
+        if (gameManager.getSavedGame() == null) {
+            game = new GameStatus();
+        } else {
+            game = gameManager.getSavedGame();
+        }
 
         playGameBackgroundMusic();
-        populateButtons();
-        updateUI();
+        populateButtons(game);
+        updateUI(game);
     }
 
     @SuppressLint({"ClickableViewAccessibility", "SetTextI18n"})
-    private void populateButtons() {
+    private void populateButtons(GameStatus game) {
         Random randomMine = new Random();
         int numRows = game.getNumRow();
         int numColumns = game.getNumColumns();
+        int totalMines = game.getNumMines();
         final int[] numMines = {game.getNumMines()};
         final int[] numScans = {0};
         game.setNumScans(numScans[0]);
@@ -135,7 +145,7 @@ public class Games extends AppCompatActivity {
                 button.setOnTouchListener((view, motionEvent) -> {
                         // if clicked on a mine
                         if (intButtons[FINAL_ROW][FINAL_COL] == 1) {
-                            gridButtonClicked(FINAL_ROW, FINAL_COL);
+                            gridButtonClicked(FINAL_ROW, FINAL_COL, game);
                             playFoundPokeBallSound();
                             numMines[0]--;
                             game.setNumMines(numMines[0]);
@@ -225,15 +235,15 @@ public class Games extends AppCompatActivity {
                             stopGameBackgroundMusic();
                             playVictoryMusic();
                             builder.setPositiveButton("OK", ((dialogInterface, i) -> {
-                                game.setNumRow(0);
-                                game.setNumColumns(0);
+                                game.setNumMines(totalMines);
+                                gameManager.add(game);
                                 finish();
                             }));
 
                             dialog = builder.create();
                             dialog.show();
                         }
-                        updateUI();
+                        updateUI(game);
 
 
                     return true;
@@ -245,12 +255,12 @@ public class Games extends AppCompatActivity {
     }
 
     // to scale the image of pokeball
-    private void gridButtonClicked(int row, int col) {
+    private void gridButtonClicked(int row, int col, GameStatus game) {
         Toast.makeText(this, "You found a Poke Ball!",
                 Toast.LENGTH_SHORT).show();
         Button button = buttons[row][col];
 
-        lockButtonSizes();
+        lockButtonSizes(game);
 
         // scale image to button
         int newWidth = button.getWidth();
@@ -261,7 +271,7 @@ public class Games extends AppCompatActivity {
         button.setBackground(new BitmapDrawable(resource, scaledBitmap));
     }
 
-    private void lockButtonSizes() {
+    private void lockButtonSizes(GameStatus game) {
         for(int row = 0; row < game.getNumRow(); row++) {
             for(int col = 0; col < game.getNumColumns(); col++) {
                 Button button = buttons[row][col];
@@ -278,12 +288,22 @@ public class Games extends AppCompatActivity {
 
     // update the number of mine left and the scan used for the player to keep in mind
     @SuppressLint("SetTextI18n")
-    private void updateUI() {
+    private void updateUI(GameStatus game) {
         TextView numMineLeft = findViewById(R.id.txtNumMineLeft);
         TextView numScan = findViewById(R.id.txtNumScans);
+        TextView numGames = findViewById(R.id.txtNumGames);
+        TextView bestScores = findViewById(R.id.txtBestScores);
 
         numMineLeft.setText("# of Poke Balls left: " + game.getNumMines());
         numScan.setText("# of Scans used: " + game.getNumScans());
+
+        if (gameManager.getSize() == 0) {
+            numGames.setText("# of Games: 0");
+            bestScores.setText("Least # of scans used: 0");
+        } else {
+            numGames.setText("# of Games: " + gameManager.getSize());
+            bestScores.setText("Least # of scans used: " + gameManager.bestScores());
+        }
     }
 
     //methods corresponding to the music player

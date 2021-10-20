@@ -11,16 +11,21 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.Objects;
 
+import cmpt276.as3.assignment3.model.GameManager;
 import cmpt276.as3.assignment3.model.GameStatus;
 
 public class Settings extends AppCompatActivity {
-    private GameStatus game;
+    private GameManager gameManager;
     private String panelSize;
     private int numMinesToFind;
 
@@ -34,10 +39,36 @@ public class Settings extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
 
         //create instance of the object to put back into the games object
-        game = GameStatus.getInstance();
+        gameManager = GameManager.getInstance();
 
         createRadioButtonsForNumMines();
         createRadioButtonsForNumPanels();
+        setUpResetButton();
+        updateUI();
+    }
+
+    private void updateUI() {
+        TextView numGames = findViewById(R.id.txtNumGamesSetting);
+        TextView bestScores = findViewById(R.id.txtBestScoreSetting);
+
+        if (gameManager.getSize() == 0) {
+            numGames.setText("# of Games: 0");
+            bestScores.setText("Least # of scans used: 0");
+        } else {
+            numGames.setText("# of Games: " + gameManager.getSize());
+            bestScores.setText("Least # of scans used: " + gameManager.bestScores());
+        }
+    }
+
+    private void setUpResetButton() {
+        Button resetButton = findViewById(R.id.btnReset);
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gameManager.reset();
+                updateUI();
+            }
+        });
     }
 
     private void createRadioButtonsForNumMines() {
@@ -86,7 +117,7 @@ public class Settings extends AppCompatActivity {
         }
     }
 
-    private void setMessageContents(String optionChosen) {
+    private void setMessageContents(String optionChosen, GameStatus game) {
         if(optionChosen.equals("4 by 6")) {
             game.setNumColumns(6);
             game.setNumRow(4);
@@ -99,7 +130,7 @@ public class Settings extends AppCompatActivity {
         }
     }
 
-    private void setNumOfMines(int num) {
+    private void setNumOfMines(int num, GameStatus game) {
         game.setNumMines(num);
     }
 
@@ -117,8 +148,10 @@ public class Settings extends AppCompatActivity {
                 //if these variables are not set within the respective functions above,
                 //an exception is thrown and we try it again.
                 if(panelSize.length() != 0 && numMinesToFind != 0) {
-                    setMessageContents(panelSize);
-                    setNumOfMines(numMinesToFind);
+                    GameStatus game = new GameStatus();
+                    setMessageContents(panelSize, game);
+                    setNumOfMines(numMinesToFind, game);
+                    gameManager.setSavedGame(game);
                     bothButtonsClicked = true;
                 } else {
                     throw new IllegalArgumentException();
