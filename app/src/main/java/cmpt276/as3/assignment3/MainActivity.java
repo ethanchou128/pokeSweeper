@@ -99,12 +99,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        countdownTimer.cancel();
         stopMusicPlayer();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        countdownTimer.start();
         playMusic();
     }
 }

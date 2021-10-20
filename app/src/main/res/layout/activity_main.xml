@@ -14,8 +14,10 @@
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/pokemon_background" />
 
     <TextView
@@ -37,7 +39,10 @@
         android:layout_height="wrap_content"
         android:text="@string/by_ethan_nick"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="17sp" />
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <RelativeLayout
         android:id="@+id/btnMenu"
@@ -52,8 +57,30 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.25">
+        app:layout_constraintVertical_bias="0.0">
 
     </RelativeLayout>
+
+    <!--demo on how to add the gif animations comes from https://www.youtube.com/watch?v=KsyCfxxEIwQ-->
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/rotomAnim"
+        android:layout_width="153dp"
+        android:layout_height="117dp"
+        android:src="@drawable/rotom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textView2"
+        app:layout_constraintHorizontal_bias="0.347"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/magikarpAnim"
+        android:layout_width="153dp"
+        android:layout_height="117dp"
+        android:src="@drawable/magikarp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
