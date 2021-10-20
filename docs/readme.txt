@@ -5,3 +5,5 @@ Optional Features we have implemented:
 -nice buttons and better than expected screen look
 -animated menu screen
 -display and save # games started and best score between launches
+
+*please scroll in the help screen to view all the image sources we used.
