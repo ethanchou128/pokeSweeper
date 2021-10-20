@@ -3,16 +3,19 @@ package cmpt276.as3.assignment3.model;
 import java.util.ArrayList;
 import java.util.List;
 
+//class that stores the games already played, as well as the "high scores".
 public class GameManager {
+    //singleton support, grouped accordingly
     private static GameManager instance;
-    private GameManager() {
-
-    }
     public static GameManager getInstance() {
         if (instance == null) {
             instance = new GameManager();
         }
         return instance;
+    }
+
+    private GameManager() {
+        //to make sure it does not get initialized
     }
 
     private List<GameStatus> games = new ArrayList<>();
@@ -27,13 +30,15 @@ public class GameManager {
         return SavedGame;
     }
 
-    public void add(GameStatus game) {games.add(game); }
+    public void add(GameStatus game) {
+        games.add(game);
+    }
 
-    public int getSize() {return games.size(); }
+    public int getSize() {
+        return games.size();
+    }
 
-    public GameStatus getGame(int currentGame) {return games.get(currentGame); }
-
-    public int bestScores() {
+    public int determineBestScores() {
         int bestScore = games.get(0).getNumScans();
         for (int i=1; i<games.size(); i++) {
             if (bestScore > games.get(i).getNumScans()) {
@@ -43,7 +48,7 @@ public class GameManager {
         return bestScore;
     }
 
-    public void reset() {
+    public void resetGamesPlayed() {
         for (GameStatus g : games) {
             games.remove(g);
         }

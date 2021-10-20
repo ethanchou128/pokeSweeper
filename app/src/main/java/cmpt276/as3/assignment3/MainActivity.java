@@ -9,10 +9,13 @@ import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-
+//class to display/manage the welcome screen accordingly.
 public class MainActivity extends AppCompatActivity {
     MediaPlayer musicPlayer;
     CountDownTimer countdownTimer;
+    //amount of milliseconds in a second; used as the "interval" in the countdownTimer below.
+    private final int MILLISECONDS_TO_SECONDS = 1000;
+    //10000 is referring to the number of milliseconds in 10 seconds.
     private long remainingMilliseconds = 10000;
     private boolean tenSecondsPassed = true;
 
@@ -45,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         //which does not move the program back to the main menu screen even though the menu button
         //is pressed.
         //video inspiration is from here: https://www.youtube.com/watch?v=zmjfAcnosS0
-        countdownTimer = new CountDownTimer(remainingMilliseconds, 1000) {
+        countdownTimer = new CountDownTimer(remainingMilliseconds, MILLISECONDS_TO_SECONDS) {
             @Override
             public void onTick(long l) {
                 remainingMilliseconds = l;
@@ -95,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         musicPlayer.start();
     }
 
-    //media player stopper/resumer
+    //media player stopper/starter
     @Override
     protected void onStop() {
         super.onStop();

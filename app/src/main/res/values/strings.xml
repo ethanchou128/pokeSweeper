@@ -2,9 +2,10 @@
     <string name="app_name">Assignment3</string>
     <string name="clickAnywhere">Click Anywhere to Begin!</string>
     <string name="by_ethan_nick"><![CDATA[By Ethan & Nick]]></string>
-    <string name="mines">\"%1$d mines\"</string>
+    <string name="mines">%1$d Poke Balls</string>
     <string name="saveButton">Save Button</string>
     <string name="howToPlay">How to Play</string>
+    <string name="resetGamesPlayed">Reset Games Played</string>
 
 
     <!-- string array consisting of the lines in the help screen. -->

@@ -4,3 +4,4 @@ Optional Features we have implemented:
 -play sound upon finding a mine or clicking an empty space
 -nice buttons and better than expected screen look
 -animated menu screen
+-display and save # games started and best score between launches

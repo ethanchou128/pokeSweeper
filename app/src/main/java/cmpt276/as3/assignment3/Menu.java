@@ -26,10 +26,6 @@ public class Menu extends AppCompatActivity {
         setUpHelpButton();
     }
 
-    public static Intent makeLaunchIntent(Context c) {
-        return new Intent(c, Menu.class);
-    }
-
     @SuppressLint("ClickableViewAccessibility")
     private void setUpGameButton() {
         Animation scaleUp = AnimationUtils.loadAnimation(this, R.anim.scale_up);
@@ -62,7 +58,6 @@ public class Menu extends AppCompatActivity {
                 startActivity(i);
                 overridePendingTransition(R.anim.fadein, R.anim.fadeout);
             }
-
             return true;
         });
     }
@@ -81,9 +76,12 @@ public class Menu extends AppCompatActivity {
                 startActivity(i);
                 overridePendingTransition(R.anim.fadein, R.anim.fadeout);
             }
-
             return true;
         });
+    }
+
+    public static Intent makeLaunchIntent(Context c) {
+        return new Intent(c, Menu.class);
     }
 }
 

@@ -17,17 +17,18 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.util.Objects;
 
 import cmpt276.as3.assignment3.model.GameManager;
 import cmpt276.as3.assignment3.model.GameStatus;
 
+//class to modify the game layout/number of pokeballs to be found;
+//also displays the games played and best score from current session
+//and gives an option to reset if desired
 public class Settings extends AppCompatActivity {
     private GameManager gameManager;
     private String panelSize;
-    private int numMinesToFind;
+    private int numPokeBallsToFind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class Settings extends AppCompatActivity {
         //create instance of the object to put back into the games object
         gameManager = GameManager.getInstance();
 
-        createRadioButtonsForNumMines();
+        createRadioButtonsForNumPokeBalls();
         createRadioButtonsForNumPanels();
         setUpResetButton();
         updateUI();
@@ -50,13 +51,12 @@ public class Settings extends AppCompatActivity {
     private void updateUI() {
         TextView numGames = findViewById(R.id.txtNumGamesSetting);
         TextView bestScores = findViewById(R.id.txtBestScoreSetting);
-
         if (gameManager.getSize() == 0) {
             numGames.setText("# of Games: 0");
             bestScores.setText("Least # of scans used: 0");
         } else {
             numGames.setText("# of Games: " + gameManager.getSize());
-            bestScores.setText("Least # of scans used: " + gameManager.bestScores());
+            bestScores.setText("Least # of scans used: " + gameManager.determineBestScores());
         }
     }
 
@@ -65,59 +65,47 @@ public class Settings extends AppCompatActivity {
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                gameManager.reset();
+                gameManager.resetGamesPlayed();
                 updateUI();
             }
         });
     }
 
-    private void createRadioButtonsForNumMines() {
-        RadioGroup minesGroup = findViewById(R.id.radio_group_num_mines);
+    private void createRadioButtonsForNumPokeBalls() {
+        RadioGroup pokeBallsGroup = findViewById(R.id.radio_group_num_poke_balls);
+        int[] numPokeBallOptions = getResources().getIntArray(R.array.num_of_poke_balls);
 
-        //create buttons
-        int[] numMinesOptions = getResources().getIntArray(R.array.num_of_mines);
-
-        for (int numMines : numMinesOptions) {
+        for (int numPokeBalls : numPokeBallOptions) {
             RadioButton button = new RadioButton(this);
-            button.setText(getString(R.string.mines, numMines));
-
-            //set on click callback
+            button.setText(getString(R.string.mines, numPokeBalls));
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(Settings.this, "You clicked " + numMines, Toast.LENGTH_SHORT)
-                            .show();
-                    numMinesToFind = numMines;
+                    numPokeBallsToFind = numPokeBalls;
                 }
             });
-            //add to radio group
-            minesGroup.addView(button);
+            pokeBallsGroup.addView(button);
         }
     }
 
     private void createRadioButtonsForNumPanels() {
         RadioGroup numPanelsGroup = findViewById(R.id.radio_group_num_panels);
-
         String[] numArrangementsOptions = getResources().getStringArray(R.array.num_game_panels);
 
         for (final String panelArrangement : numArrangementsOptions) {
             RadioButton button = new RadioButton(this);
             button.setText(panelArrangement);
-
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     panelSize = panelArrangement;
-                    Toast.makeText(Settings.this, "You clicked " + panelArrangement, Toast.LENGTH_SHORT)
-                            .show();
                 }
             });
-            //add to radio group
             numPanelsGroup.addView(button);
         }
     }
 
-    private void setMessageContents(String optionChosen, GameStatus game) {
+    private void setGamePanelLayout(String optionChosen, GameStatus game) {
         if(optionChosen.equals("4 by 6")) {
             game.setNumColumns(6);
             game.setNumRow(4);
@@ -125,17 +113,13 @@ public class Settings extends AppCompatActivity {
             game.setNumRow(5);
             game.setNumColumns(10);
         } else {
-            game.setNumRow(5);
+            game.setNumRow(6);
             game.setNumColumns(15);
         }
     }
 
-    private void setNumOfMines(int num, GameStatus game) {
-        game.setNumMines(num);
-    }
-
-    public static Intent makeLaunchIntent(Context c) {
-        return new Intent(c, Settings.class);
+    private void setNumOfPokeBalls(int num, GameStatus game) {
+        game.setNumPokeBalls(num);
     }
 
     @Override
@@ -147,10 +131,10 @@ public class Settings extends AppCompatActivity {
                 //these three variables are initialized with a number of 0.
                 //if these variables are not set within the respective functions above,
                 //an exception is thrown and we try it again.
-                if(panelSize.length() != 0 && numMinesToFind != 0) {
+                if(panelSize.length() != 0 && numPokeBallsToFind != 0) {
                     GameStatus game = new GameStatus();
-                    setMessageContents(panelSize, game);
-                    setNumOfMines(numMinesToFind, game);
+                    setGamePanelLayout(panelSize, game);
+                    setNumOfPokeBalls(numPokeBallsToFind, game);
                     gameManager.setSavedGame(game);
                     bothButtonsClicked = true;
                 } else {
@@ -178,6 +162,10 @@ public class Settings extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public static Intent makeLaunchIntent(Context c) {
+        return new Intent(c, Settings.class);
     }
 
     @Override

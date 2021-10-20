@@ -3,18 +3,17 @@ package cmpt276.as3.assignment3.model;
 //class that stores all the game information when modified/updated/used in
 //Games and Settings classes.
 public class GameStatus {
-    private int numMines;
+    private int numPokeBalls;
     private int numRows;
     private int numColumns;
     private int numScans;
 
-
-    public int getNumMines() {
-        return numMines;
+    public int getNumPokeBalls() {
+        return numPokeBalls;
     }
 
-    public void setNumMines(int numMines) {
-        this.numMines = numMines;
+    public void setNumPokeBalls(int numPokeBalls) {
+        this.numPokeBalls = numPokeBalls;
     }
 
     public int getNumRow() {

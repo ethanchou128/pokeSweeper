@@ -5,7 +5,7 @@
         <item>5 by 10</item>
         <item>6 by 15</item>
     </string-array>
-    <integer-array name="num_of_mines">
+    <integer-array name="num_of_poke_balls">
         <item>6</item>
         <item>10</item>
         <item>15</item>
