@@ -1,9 +1,3 @@
-Optional Features we have implemented:
+This is a Pokemon-themed minesweeper game which I had created in one of my courses with a partner. As it can be observed, this program was created in Java and we tested and ran this project on Android Studio in an emulator.
 
--Save game state when the app closes while playing
--play sound upon finding a mine or clicking an empty space
--nice buttons and better than expected screen look
--animated menu screen
--display and save # games started and best score between launches
-
-*please scroll in the help screen to view all the image sources we used.
+Warning: The volume of the sounds can get a tad bit loud depending on how your speakers are.
